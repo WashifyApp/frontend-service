@@ -6,7 +6,7 @@ const API = {
     notification: `http://${HOST}/api/notification`
 };
 
-let currentUser = null;
+let currentUser = null; 
 let currentAuthMode = 'login'; // 'login' or 'register'
 let selectedWashId = null;
 
