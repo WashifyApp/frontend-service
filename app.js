@@ -8,7 +8,7 @@ const API = {
 
 let currentUser = null; 
 let currentAuthMode = 'login'; // 'login' or 'register'
-let selectedWashId = null;
+let selectedWashId = null; 
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
