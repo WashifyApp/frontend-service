@@ -18,7 +18,7 @@ jobs:
   # ── Stage 1: SonarQube Code Quality ──────────────────────
   sonarqube:
     name: Stage 1 — SonarQube
-    uses: WashifyApp/washify-workflows/.github/workflows/reusable-sonarqube.yml@main
+    uses: WashifyApp/washify-workflows/.github/workflows/reusable-sonarqube.yml
     with:
       environment: dev
     secrets:
