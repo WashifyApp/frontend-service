@@ -9,7 +9,7 @@ const API = {
 let currentUser = null; 
 let currentAuthMode = 'login'; // 'login' or 'register'
 let selectedWashId = null; 
-
+ 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
