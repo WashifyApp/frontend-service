@@ -14,6 +14,10 @@ on:
   pull_request:
     branches: [ develop ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   # ── Stage 1: SonarQube Code Quality ──────────────────────
   sonarqube:
@@ -48,7 +52,7 @@ jobs:
     uses: WashifyApp/washify-workflows/.github/workflows/reusable-build-scan-push.yml@main
     with:
       environment: dev
-      image_tag: sha-${{ github.sha }}
+      image_tag: sha-${{ github.sha != '' && github.sha || '0000000' }}
     secrets:
       MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
