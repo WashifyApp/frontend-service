@@ -48,7 +48,7 @@ jobs:
     uses: WashifyApp/washify-workflows/.github/workflows/reusable-build-scan-push.yml@main
     with:
       environment: dev
-      image_tag: sha-${{ github.sha != '' && github.sha || '0000000' }}
+      image_tag: sha-${{ github.sha }}
     secrets:
       MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
