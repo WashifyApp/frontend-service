@@ -3,7 +3,7 @@ const API = {
     auth: `http://${HOST}/api/auth`,
     wash: `http://${HOST}/api/car-wash`,
     booking: `http://${HOST}/api/booking`,
-    notification: `http://${HOST}/api/notification`
+    notification: `http://${HOST}/api/notification` 
 };
 
 let currentUser = null; 
