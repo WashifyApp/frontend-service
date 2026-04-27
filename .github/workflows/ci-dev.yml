@@ -1,18 +1,11 @@
-# ─────────────────────────────────────────────────────────────
-# CI Pipeline — DEV (develop branch)
-# Copy this file into EVERY microservice repo at:
-#   .github/workflows/ci-dev.yml
-#
-# Image tag format: sha-{first 7 of commit SHA}
-# e.g. ghcr.io/washifyapp/auth-service:sha-abc1234
-# ─────────────────────────────────────────────────────────────
+
 name: CI — Dev
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ develop ]
+    branches: [ main ]
 
 permissions:
   contents: read
