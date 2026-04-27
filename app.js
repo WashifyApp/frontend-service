@@ -1,5 +1,5 @@
 const HOST = window.location.host;
-const PROTOCOL = window.location.protocol; // This will be https:// on your site
+const PROTOCOL = window.location.protocol; // Protocol-aware (HTTPS/HTTP)
 
 const API = {
     auth: `${PROTOCOL}//${HOST}/api/auth`,
@@ -8,11 +8,10 @@ const API = {
     notification: `${PROTOCOL}//${HOST}/api/notification`
 };
 
-
 let currentUser = null;
 let currentAuthMode = 'login'; // 'login' or 'register'
-let selectedWashId = null; 
- 
+let selectedWashId = null;
+
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
@@ -27,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // UI Navigation
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(`page-${pageId}`).classList.add('active');
+    const targetPage = document.getElementById(`page-${pageId}`);
+    if (targetPage) targetPage.classList.add('active');
     
     if (pageId === 'dashboard') {
         if (!currentUser) return showAuth('login');
@@ -76,17 +76,23 @@ function updateNavState() {
         document.getElementById('user-section').style.display = 'flex';
         document.getElementById('user-email').innerText = currentUser.email;
         if (currentUser.role === 'admin') {
-            document.getElementById('nav-admin-dashboard').style.display = 'inline-block';
-            document.getElementById('nav-dashboard').style.display = 'none';
+            const adminDash = document.getElementById('nav-admin-dashboard');
+            if (adminDash) adminDash.style.display = 'inline-block';
+            const userDash = document.getElementById('nav-dashboard');
+            if (userDash) userDash.style.display = 'none';
         } else {
-            document.getElementById('nav-dashboard').style.display = 'inline-block';
-            document.getElementById('nav-admin-dashboard').style.display = 'none';
+            const userDash = document.getElementById('nav-dashboard');
+            if (userDash) userDash.style.display = 'inline-block';
+            const adminDash = document.getElementById('nav-admin-dashboard');
+            if (adminDash) adminDash.style.display = 'none';
         }
     } else {
         document.getElementById('auth-section').style.display = 'flex';
         document.getElementById('user-section').style.display = 'none';
-        document.getElementById('nav-dashboard').style.display = 'none';
-        document.getElementById('nav-admin-dashboard').style.display = 'none';
+        const userDash = document.getElementById('nav-dashboard');
+        if (userDash) userDash.style.display = 'none';
+        const adminDash = document.getElementById('nav-admin-dashboard');
+        if (adminDash) adminDash.style.display = 'none';
         showPage('home');
     }
 }
@@ -183,6 +189,7 @@ function logout() {
 
 async function fetchCarWashes() {
     const grid = document.getElementById('wash-grid');
+    if (!grid) return;
     try {
         const res = await fetch(`${API.wash}/car_washes`);
         const washes = await res.json();
@@ -193,15 +200,15 @@ async function fetchCarWashes() {
         }
 
         grid.innerHTML = washes.map(w => `
-            <div class="card">
-                <h3>${w.name}</h3>
-                <p>📍 ${w.location}</p>
-                <p>⭐ ${w.rating} / 5.0</p>
+            <div class="card p-6 bg-slate-900/40 border border-white/5 rounded-3xl backdrop-blur-md">
+                <h3 class="text-xl font-bold text-white">${w.name}</h3>
+                <p class="text-slate-400 mt-2">📍 ${w.location}</p>
+                <p class="text-emerald-400 mt-1 font-bold">⭐ ${w.rating} / 5.0</p>
                 <div style="margin-top: 1rem;">
-                    ${w.services.map(s => `<div style="font-size: 0.9rem; margin-bottom: 0.2rem;">- ${s.name} <span class="price">$${s.price}</span> (${s.duration_minutes}m)</div>`).join('')}
+                    ${w.services.map(s => `<div style="font-size: 0.9rem; margin-bottom: 0.2rem;" class="text-slate-300">- ${s.name} <span class="text-emerald-500 font-bold">$${s.price}</span> (${s.duration_minutes}m)</div>`).join('')}
                 </div>
                 ${(!currentUser || currentUser.role !== 'admin') ? 
-                  `<button class="btn-primary w-100" style="margin-top: 1rem;" onclick='openBooking(${JSON.stringify(w)})'>Book Now</button>` 
+                  `<button class="btn-primary w-full mt-6 py-3 bg-emerald-600 rounded-xl font-bold" onclick='openBooking(${JSON.stringify(w)})'>Book Now</button>` 
                   : '<p style="color:var(--text-muted); margin-top:1rem; font-size:0.9rem;">Admins cannot book services.</p>'}
             </div>
         `).join('');
@@ -267,6 +274,7 @@ async function handleBooking(e) {
 
 async function fetchMyBookings() {
     const list = document.getElementById('bookings-list');
+    if (!list) return;
     list.innerHTML = '<div class="loader">Loading bookings...</div>';
     
     try {
@@ -281,13 +289,13 @@ async function fetchMyBookings() {
         }
 
         list.innerHTML = bookings.map(b => `
-            <li>
+            <li class="p-4 bg-white/5 rounded-xl mb-3 border border-white/5">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                        <strong>${b.service_name}</strong>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Queue: #${b.queue_number} | Wait: ${b.estimated_wait_time_minutes}m</div>
+                        <strong class="text-white">${b.service_name}</strong>
+                        <div style="font-size: 0.8rem;" class="text-slate-500">Queue: #${b.queue_number} | Wait: ${b.estimated_wait_time_minutes}m</div>
                     </div>
-                    <span class="status-badge status-${b.status}">${b.status.toUpperCase()}</span>
+                    <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-bold uppercase">${b.status}</span>
                 </div>
             </li>
         `).join('');
@@ -341,6 +349,7 @@ async function handleAddWash(e) {
 
 async function fetchAdminBookings() {
     const list = document.getElementById('admin-bookings-list');
+    if (!list) return;
     list.innerHTML = '<div class="loader">Loading customer bookings...</div>';
     
     try {
@@ -355,20 +364,20 @@ async function fetchAdminBookings() {
         }
 
         list.innerHTML = bookings.map(b => `
-            <li>
+            <li class="p-4 bg-white/5 rounded-xl mb-3 border border-white/5">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                     <div style="flex:1;">
-                        <strong>${b.service_name}</strong>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Queue: #${b.queue_number} | Wait: ${b.estimated_wait_time_minutes}m</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">User ID: ${b.user_id.substring(0,8)}...</div>
+                        <strong class="text-white">${b.service_name}</strong>
+                        <div style="font-size: 0.8rem;" class="text-slate-500">Queue: #${b.queue_number} | Wait: ${b.estimated_wait_time_minutes}m</div>
+                        <div style="font-size: 0.8rem;" class="text-slate-600">User ID: ${b.user_id.substring(0,8)}...</div>
                     </div>
                     <div style="display:flex; gap: 0.5rem; align-items:center;">
-                        <span class="status-badge status-${b.status}">${b.status.toUpperCase()}</span>
+                        <span class="px-2 py-1 bg-white/10 rounded text-[10px] text-white font-bold">${b.status.toUpperCase()}</span>
                         <select onchange="updateBookingStatus('${b.id}', this.value)" style="margin-bottom:0; width:120px; padding:0.4rem; background:rgba(0,0,0,0.5); color:white;">
                             <option value="">Update...</option>
                             <option value="pending">Pending</option>
-                            <option value="started">Started (75% wait)</option>
-                            <option value="washing">Washing (25% wait)</option>
+                            <option value="started">Started</option>
+                            <option value="washing">Washing</option>
                             <option value="completed">Completed</option>
                         </select>
                     </div>
@@ -399,6 +408,7 @@ async function updateBookingStatus(bookingId, status) {
 
 async function fetchMyNotifications() {
     const list = document.getElementById('notifications-list');
+    if (!list) return;
     list.innerHTML = '<div class="loader">Loading notifications...</div>';
     
     try {
@@ -411,11 +421,11 @@ async function fetchMyNotifications() {
         }
 
         list.innerHTML = notifs.map(n => `
-            <li>
+            <li class="p-4 bg-white/5 rounded-xl mb-3 border border-white/5">
                 <div style="display: flex; flex-direction: column;">
-                    <strong style="color:var(--accent);">${n.type.toUpperCase()}</strong>
-                    <div style="margin-top:0.3rem;">${n.message}</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top:0.3rem;">${new Date(n.created_at).toLocaleString()}</div>
+                    <strong class="text-emerald-500 text-xs font-bold uppercase">${n.type}</strong>
+                    <div class="text-slate-300 mt-1">${n.message}</div>
+                    <div class="text-[10px] text-slate-600 mt-2">${new Date(n.created_at).toLocaleString()}</div>
                 </div>
             </li>
         `).join('');
