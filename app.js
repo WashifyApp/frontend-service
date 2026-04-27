@@ -1,10 +1,13 @@
 const HOST = window.location.host;
+const PROTOCOL = window.location.protocol; // This will be https:// on your site
+
 const API = {
-    auth: `http://${HOST}/api/auth`,
-    wash: `http://${HOST}/api/car-wash`,
-    booking: `http://${HOST}/api/booking`,
-    notification: `http://${HOST}/api/notification`
+    auth: `${PROTOCOL}//${HOST}/api/auth`,
+    wash: `${PROTOCOL}//${HOST}/api/car-wash`,
+    booking: `${PROTOCOL}//${HOST}/api/booking`,
+    notification: `${PROTOCOL}//${HOST}/api/notification`
 };
+
 
 let currentUser = null;
 let currentAuthMode = 'login'; // 'login' or 'register'
