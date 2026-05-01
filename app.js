@@ -5,7 +5,7 @@ const API = {
     auth: `${PROTOCOL}//${HOST}/api/auth`,
     wash: `${PROTOCOL}//${HOST}/api/car-wash`,
     booking: `${PROTOCOL}//${HOST}/api/booking`,
-    notification: `${PROTOCOL}//${HOST}/api/notification`
+    notification: `${PROTOCOL}//${HOST}/api/notification` 
 };
 
 let currentUser = null;
