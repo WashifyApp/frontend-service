@@ -3,65 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Washify | Skip the Queue, Get the Shine</title>
+    <title>Washify | Premium Car Wash Booking</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="glass-bg"></div>
+    <div class="ambient-glow"></div>
     
     <header>
-        <div class="logo">Washify <span>✨</span></div>
+        <div class="logo">Washify <i class="fa-solid fa-sparkles text-accent"></i></div>
         <nav>
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('washes')">Car Washes</a>
-            <a href="#" onclick="showPage('dashboard')" id="nav-dashboard" style="display:none;">My Bookings</a>
-            <a href="#" onclick="showPage('admin-dashboard')" id="nav-admin-dashboard" style="display:none;">Owner Dashboard</a>
+            <a href="#" onclick="showPage('home')" class="nav-link active" id="link-home">Home</a>
+            <a href="#" onclick="showPage('about')" class="nav-link" id="link-about">About</a>
+            <a href="#" onclick="showPage('washes')" class="nav-link" id="link-washes">Services</a>
+            <a href="#" onclick="showPage('faq')" class="nav-link" id="link-faq">FAQ</a>
+            <a href="#" onclick="showPage('contact')" class="nav-link" id="link-contact">Contact</a>
+            <a href="#" onclick="showPage('dashboard')" class="nav-link" id="nav-dashboard" style="display:none;">My Bookings</a>
+            <a href="#" onclick="showPage('admin-dashboard')" class="nav-link" id="nav-admin-dashboard" style="display:none;">Owner Dashboard</a>
         </nav>
         <div class="auth-buttons" id="auth-section">
             <button class="btn-outline" onclick="showAuth('login')">Log In</button>
             <button class="btn-primary" onclick="showAuth('register')">Sign Up</button>
         </div>
         <div class="user-profile" id="user-section" style="display:none;">
-            <span id="nav-notifications" onclick="showPage('notifications')" style="cursor:pointer; margin-right:1.5rem; font-size:1.2rem;" title="Notifications">🔔</span>
-            <span id="user-email" style="margin-right:1rem;"></span>
-            <button class="btn-outline" onclick="logout()">Log Out</button>
+            <div id="nav-notifications" onclick="showPage('notifications')" class="notification-bell" title="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span class="badge" style="display:none;" id="notif-badge">!</span>
+            </div>
+            <span id="user-email" class="user-email"></span>
+            <button class="btn-outline small" onclick="logout()">Log Out</button>
         </div>
+        
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
     </header>
 
     <main>
         <!-- HOME PAGE -->
         <section id="page-home" class="page active">
-            <div class="hero">
-                <h1>Skip the Queue,<br><span class="gradient-text">Get the Shine.</span></h1>
-                <p>Book premium car wash services instantly. Track your queue in real-time, get weather-based reminders, and keep your car looking brand new.</p>
-                <button class="btn-primary large" onclick="showPage('washes')">Find a Car Wash</button>
+            <div class="hero-container">
+                <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="badge-pill">✨ The Future of Car Care</div>
+                    <h1>Skip the Queue,<br><span class="gradient-text">Get the Shine.</span></h1>
+                    <p>Experience premium car detailing with our smart booking system. Track your queue in real-time and treat your car to a world-class wash.</p>
+                    <div class="hero-actions">
+                        <button class="btn-primary large" onclick="showPage('washes')">Book Now <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="btn-outline large" onclick="showPage('about')">Learn More</button>
+                    </div>
+                </div>
             </div>
-            <div class="hero-image">
-                <div class="car-mockup">
-                    <div class="shine-effect"></div>
+            
+            <div class="features-section" data-aos="fade-up">
+                <h2>Why Choose <span class="gradient-text">Washify?</span></h2>
+                <div class="features-grid">
+                    <div class="feature-card glass-card" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                        <h3>Smart Queueing</h3>
+                        <p>No more waiting in line. Track your turn in real-time from your phone.</p>
+                    </div>
+                    <div class="feature-card glass-card" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="feature-icon"><i class="fa-solid fa-droplet"></i></div>
+                        <h3>Premium Wash</h3>
+                        <p>We use top-tier, eco-friendly products for a mirror-like finish.</p>
+                    </div>
+                    <div class="feature-card glass-card" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                        <h3>Instant Alerts</h3>
+                        <p>Get notified when it's your turn or when your wash is complete.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="page-about" class="page">
+            <div class="about-container">
+                <div class="about-image" data-aos="fade-right">
+                    <img src="assets/images/about.png" alt="Detailing team at work" class="about-img">
+                    <div class="image-glow"></div>
+                </div>
+                <div class="about-content" data-aos="fade-left">
+                    <h2>Redefining the <br><span class="gradient-text">Car Wash Experience</span></h2>
+                    <p>At Washify, we believe your time is just as valuable as your car. We've revolutionized the traditional car wash industry by introducing a seamless, smart, and premium booking experience.</p>
+                    <p>Our network of top-rated detailers and automated washes ensures that your vehicle receives the utmost care, while our real-time queue system ensures you never waste a minute waiting in line.</p>
+                    <ul class="about-list">
+                        <li><i class="fa-solid fa-check text-accent"></i> 100% Eco-Friendly Products</li>
+                        <li><i class="fa-solid fa-check text-accent"></i> Certified Professional Detailers</li>
+                        <li><i class="fa-solid fa-check text-accent"></i> Real-time Queue Tracking</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- CAR WASHES PAGE -->
         <section id="page-washes" class="page">
-            <h2>Available Car Washes</h2>
+            <div class="section-header" data-aos="fade-down">
+                <h2>Premium <span class="gradient-text">Services</span></h2>
+                <p>Select a verified partner and book your slot instantly.</p>
+            </div>
             <div class="wash-grid" id="wash-grid">
                 <!-- Populated via JS -->
-                <div class="loader">Loading...</div>
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p>Loading premium washes...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ PAGE -->
+        <section id="page-faq" class="page">
+            <div class="section-header" data-aos="fade-down">
+                <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+            </div>
+            <div class="faq-container" data-aos="fade-up">
+                <div class="faq-item glass-card">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How does the virtual queue work?</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>When you book a service, you receive a queue number. You can track the current queue status in real-time from your dashboard and arrive right before your turn.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass-card">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Can I cancel or reschedule my booking?</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel your booking from your dashboard at any time before the wash starts.</p>
+                    </div>
+                </div>
+                <div class="faq-item glass-card">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Are the cleaning products safe for ceramic coatings?</h3>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. All Washify partners are required to use pH-neutral, safe products that protect and enhance existing coatings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CONTACT PAGE -->
+        <section id="page-contact" class="page">
+            <div class="contact-container">
+                <div class="contact-info" data-aos="fade-right">
+                    <h2>Get in <span class="gradient-text">Touch</span></h2>
+                    <p>Have questions about our platform or want to list your car wash? Reach out to us.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="method">
+                            <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>support@washify.com</p>
+                            </div>
+                        </div>
+                        <div class="method">
+                            <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+1 (800) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="method">
+                            <div class="icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <h4>Office</h4>
+                                <p>123 Neon Ave, Cyber City, CA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper glass-card" data-aos="fade-left">
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="4" placeholder="How can we help you?" required></textarea>
+                        </div>
+                        <p class="success-text" id="contact-success" style="display:none;">Message sent successfully! We'll get back to you soon.</p>
+                        <button type="submit" class="btn-primary w-100">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                </div>
             </div>
         </section>
 
         <!-- DASHBOARD PAGE -->
         <section id="page-dashboard" class="page">
-            <h2>My Bookings</h2>
-            <div class="dashboard-grid">
-                <div class="card my-bookings">
-                    <h3>Recent Bookings</h3>
-                    <ul id="bookings-list">
+            <div class="section-header" data-aos="fade-down">
+                <h2>My <span class="gradient-text">Bookings</span></h2>
+            </div>
+            <div class="dashboard-grid" data-aos="fade-up">
+                <div class="card glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-calendar-check"></i> Recent Activity</h3>
+                    <ul id="bookings-list" class="booking-list">
                         <!-- Populated via JS -->
-                        <div class="loader">Loading...</div>
+                        <div class="loader-container"><div class="spinner"></div></div>
                     </ul>
                 </div>
             </div>
@@ -69,29 +227,43 @@
 
         <!-- ADMIN DASHBOARD PAGE -->
         <section id="page-admin-dashboard" class="page">
-            <h2>Owner Dashboard</h2>
-            <div class="dashboard-grid">
-                <div class="card glass-card">
-                    <h3>List a New Car Wash</h3>
+            <div class="section-header" data-aos="fade-down">
+                <h2>Owner <span class="gradient-text">Dashboard</span></h2>
+            </div>
+            <div class="admin-grid">
+                <div class="card glass-card" data-aos="fade-right">
+                    <h3 class="card-title"><i class="fa-solid fa-plus-circle"></i> List a New Car Wash</h3>
                     <form id="add-wash-form" onsubmit="handleAddWash(event)">
-                        <input type="text" id="wash-name" placeholder="Car Wash Name" required>
-                        <input type="text" id="wash-location" placeholder="Location" required>
-                        <input type="number" id="wash-capacity" placeholder="Slot Capacity (e.g., 5)" required>
-                        <hr style="margin:1rem 0; border-color:var(--glass-border);">
-                        <h4>Service Offering</h4>
-                        <input type="text" id="service-name" placeholder="Service Name (e.g., Full Wash)" required>
-                        <input type="number" id="service-price" placeholder="Price ($)" required>
-                        <input type="number" id="service-duration" placeholder="Duration (minutes)" required>
+                        <div class="form-group">
+                            <input type="text" id="wash-name" placeholder="Car Wash Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="wash-location" placeholder="Location" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="wash-capacity" placeholder="Slot Capacity (e.g., 5)" required>
+                        </div>
+                        
+                        <div class="divider"><span>Service Offering</span></div>
+                        
+                        <div class="form-group">
+                            <input type="text" id="service-name" placeholder="Service Name (e.g., Full Wash)" required>
+                        </div>
+                        <div class="form-group-row">
+                            <input type="number" id="service-price" placeholder="Price ($)" required>
+                            <input type="number" id="service-duration" placeholder="Duration (min)" required>
+                        </div>
+                        
                         <p class="error-text" id="add-wash-error"></p>
                         <p class="success-text" id="add-wash-success"></p>
                         <button type="submit" class="btn-primary w-100">List Car Wash</button>
                     </form>
                 </div>
                 
-                <div class="card my-bookings" style="grid-column: 1 / -1;">
-                    <h3>Manage Customer Bookings</h3>
-                    <ul id="admin-bookings-list">
-                        <div class="loader">Loading bookings...</div>
+                <div class="card glass-card" data-aos="fade-left">
+                    <h3 class="card-title"><i class="fa-solid fa-users"></i> Manage Bookings</h3>
+                    <ul id="admin-bookings-list" class="booking-list">
+                        <div class="loader-container"><div class="spinner"></div></div>
                     </ul>
                 </div>
             </div>
@@ -99,12 +271,14 @@
 
         <!-- NOTIFICATIONS PAGE -->
         <section id="page-notifications" class="page">
-            <h2>Notifications 🔔</h2>
-            <div class="dashboard-grid">
-                <div class="card my-bookings">
-                    <ul id="notifications-list">
+            <div class="section-header" data-aos="fade-down">
+                <h2>Your <span class="gradient-text">Notifications</span></h2>
+            </div>
+            <div class="dashboard-grid" data-aos="fade-up">
+                <div class="card glass-card">
+                    <ul id="notifications-list" class="notification-list">
                         <!-- Populated via JS -->
-                        <div class="loader">Loading...</div>
+                        <div class="loader-container"><div class="spinner"></div></div>
                     </ul>
                 </div>
             </div>
@@ -113,52 +287,100 @@
         <!-- MODALS -->
         <div class="modal-overlay" id="auth-modal">
             <div class="modal glass-card">
-                <button class="close-btn" onclick="closeModals()">×</button>
-                <h2 id="auth-title">Log In</h2>
+                <button class="close-btn" onclick="closeModals()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="modal-header">
+                    <h2 id="auth-title">Welcome Back</h2>
+                    <p id="auth-subtitle">Log in to access your dashboard</p>
+                </div>
                 <form id="auth-form" onsubmit="handleAuth(event)">
-                    <select id="auth-role" style="display:none; margin-bottom: 1rem; width:100%; padding: 0.8rem; border-radius: 8px;">
-                        <option value="user">Customer</option>
-                        <option value="admin">Car Wash Owner</option>
-                    </select>
-                    <input type="email" id="auth-email" placeholder="Email Address" required>
-                    <input type="tel" id="auth-phone" placeholder="Mobile Number (required for signup)" style="display:none;" required>
-                    <input type="password" id="auth-password" placeholder="Password" required>
+                    <div class="form-group" id="auth-role-group" style="display:none;">
+                        <label>I am a:</label>
+                        <select id="auth-role">
+                            <option value="user">Customer</option>
+                            <option value="admin">Car Wash Owner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="auth-email" placeholder="Email Address" required>
+                        </div>
+                    </div>
+                    <div class="form-group" id="auth-phone-group" style="display:none;">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" id="auth-phone" placeholder="Mobile Number" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="auth-password" placeholder="Password" required>
+                        </div>
+                    </div>
                     <p class="error-text" id="auth-error"></p>
                     <button type="submit" class="btn-primary w-100" id="auth-submit">Log In</button>
                 </form>
-                <p class="toggle-auth" onclick="toggleAuthMode()">Don't have an account? Sign up</p>
+                <div class="modal-footer">
+                    <p class="toggle-auth" onclick="toggleAuthMode()">Don't have an account? <span class="text-accent">Sign up</span></p>
+                </div>
             </div>
         </div>
 
-        <div class="modal-overlay" id="otp-modal" style="display:none; z-index:2000;">
+        <div class="modal-overlay" id="otp-modal">
             <div class="modal glass-card">
-                <h2>Verify Account</h2>
-                <p style="margin-bottom:1rem; font-size:0.9rem; color:var(--text-muted);">We sent a 6-digit OTP to your phone/email.</p>
+                <div class="modal-header">
+                    <h2>Verify Account</h2>
+                    <p>We sent a 6-digit OTP to your phone/email.</p>
+                </div>
                 <form id="otp-form" onsubmit="verifyOTP(event)">
-                    <input type="text" id="otp-code" placeholder="Enter OTP (use 123456)" required>
+                    <div class="form-group">
+                        <div class="otp-input-group">
+                            <input type="text" id="otp-code" placeholder="Enter OTP (e.g. 123456)" required maxlength="6" style="text-align:center; letter-spacing: 5px; font-size: 1.5rem;">
+                        </div>
+                    </div>
                     <p class="error-text" id="otp-error"></p>
-                    <button type="submit" class="btn-primary w-100">Verify</button>
+                    <button type="submit" class="btn-primary w-100">Verify Account</button>
                 </form>
             </div>
         </div>
         
         <div class="modal-overlay" id="booking-modal">
             <div class="modal glass-card">
-                <button class="close-btn" onclick="closeModals()">×</button>
-                <h2>Book Service</h2>
-                <h3 id="book-wash-name"></h3>
+                <button class="close-btn" onclick="closeModals()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="modal-header">
+                    <h2>Book Service</h2>
+                    <h3 id="book-wash-name" class="text-accent"></h3>
+                </div>
                 <form id="booking-form" onsubmit="handleBooking(event)">
-                    <select id="book-service" required>
-                        <!-- Populated via JS -->
-                    </select>
+                    <div class="form-group">
+                        <label>Select Package</label>
+                        <select id="book-service" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
                     <p class="error-text" id="booking-error"></p>
                     <p class="success-text" id="booking-success"></p>
-                    <button type="submit" class="btn-primary w-100">Confirm Booking</button>
+                    <button type="submit" class="btn-primary w-100">Confirm Booking <i class="fa-solid fa-check"></i></button>
                 </form>
             </div>
         </div>
     </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="logo">Washify <i class="fa-solid fa-sparkles text-accent"></i></div>
+            <p>© 2026 Washify Inc. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
 
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
