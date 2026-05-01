@@ -41,7 +41,7 @@ jobs:
           REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           SERVICE="${{ github.event.repository.name }}"
 
-          DEV_IMAGE="${{ env.REGISTRY }}/${REPO_OWNER}/${SERVICE}:sha-${SHORT_SHA}"
+          DEV_IMAGE="${{ env.REGISTRY }}/${REPO_OWNER}/${SERVICE}:sha-${{ github.sha }}"
           PROD_IMAGE="${{ env.REGISTRY }}/${REPO_OWNER}/${SERVICE}:${{ github.ref_name }}"
 
           echo "short_sha=${SHORT_SHA}"       >> $GITHUB_OUTPUT
