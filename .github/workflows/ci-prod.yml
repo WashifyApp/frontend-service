@@ -1,19 +1,6 @@
-# ─────────────────────────────────────────────────────────────
-# CI Pipeline — PRODUCTION (Image Promotion)
-# Triggered by: git tag v*.*.* pointing to a tested commit
-#
-# What it does:
-#   1. Reads the commit SHA from the git tag
-#   2. Pulls the already-tested dev image (sha-xxxxxxx) from GHCR
-#   3. Re-tags it with the semantic version (v1.1.1)
-#   4. Pushes the re-tagged image to GHCR
-#
-# NO rebuild. NO re-scanning. The tested dev image is promoted!
-#
 # How to trigger:
 #   git tag v1.1.1 <tested-commit-sha>
 #   git push origin v1.1.1
-# ─────────────────────────────────────────────────────────────
 name: CI — Production (Image Promotion)
 
 on:
@@ -100,7 +87,7 @@ jobs:
                 tag: ${{ github.ref_name }}
 
             Then ArgoCD will auto-deploy to the PROD cluster!
-            ─────────────────────────────────────
+          
 
             — Washify CI/CD
 
@@ -114,11 +101,11 @@ jobs:
           password: ${{ secrets.MAIL_PASSWORD }}
           to: ${{ secrets.MAIL_RECIPIENT }}
           from: "Washify CI <${{ secrets.MAIL_USERNAME }}>"
-          subject: "❌ [PROD][FAIL] Image Promotion Failed — ${{ github.event.repository.name }} ${{ github.ref_name }}"
+          subject: " [PROD][FAIL] Image Promotion Failed — ${{ github.event.repository.name }} ${{ github.ref_name }}"
           body: |
             Hello Dev Team,
 
-            ❌ Production Image Promotion FAILED
+              Production Image Promotion FAILED
 
             Service     : ${{ github.repository }}
             Release Tag : ${{ github.ref_name }}
